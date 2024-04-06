@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 captainVersion: 4
 networks:
   db:
@@ -61,3 +62,9 @@ caproverOneClickApp:
     Odoo, formerly known as OpenERP, is a suite of open-source business apps written in
     Python and released under the AGPL license.
   documentation: https://hub.docker.com/_/odoo?tab=description
+=======
+ {
+  "schemaVersion": 2,
+  "dockerfilePath": "./odoo/Dockerfile"
+ }
+>>>>>>> 195b069 (schema)
