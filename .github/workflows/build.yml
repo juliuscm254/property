@@ -1,0 +1,21 @@
+name: build + publish
+
+on:
+  push:
+    branches:
+      - devel
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Deploy on CapRover
+        uses: caprover/deploy-from-github@v1.1.2
+        with:
+          server: https://cloud.habahaba.store
+          app: "odoo-doodba "
+          token: "${{ secrets.APP_TOKEN }}"
+          image: "ghcr.io/tecnativa/doodba:16.0-onbuild"
