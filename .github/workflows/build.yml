@@ -16,6 +16,6 @@ jobs:
         uses: caprover/deploy-from-github@v1.1.2
         with:
           server: https://cloud.habahaba.store
-          app: "odoo-doodba "
+          app: "odoo"
           token: "${{ secrets.APP_TOKEN }}"
           image: "ghcr.io/tecnativa/doodba:16.0-onbuild"
