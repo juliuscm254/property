@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="tenant_contract_rental_unit_wizard_form_view" model="ir.ui.view">
+        <field name="name">tenant.contract.rental.unit.wizard.form</field>
+        <field name="model">tenant.contract.rental.unit.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="building_id"/>
+                    <field name="rental_unit_id"/>
+                    <!-- <field name="tenant_contract_id"/> -->
+                </group>
+                <footer>
+                    <button name="action_add_rental_unit" type="object" string="Add Rental Unit" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="action_tenant_contract_rental_unit_wizard" model="ir.actions.act_window">
+        <field name="name">Add Rental Unit</field>
+        <field name="res_model">tenant.contract.rental.unit.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record> -->
+</odoo>

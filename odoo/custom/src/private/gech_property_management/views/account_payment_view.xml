@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_account_payment_form_inherit" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="payment_type" position="after">
+                <!-- <field name="payment_reference" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/>
+                <field name="discount_percentage" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/>
+                <field name="yearly_amount" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/>
+                <field name="owner_contract_id" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/>
+                <field name="valid_from" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/>
+                <field name="valid_until" attrs="{'invisible': [('owner_payment_id', '=', False)]}"/> -->
+            </field>
+        </field>
+    </record>
+</odoo>

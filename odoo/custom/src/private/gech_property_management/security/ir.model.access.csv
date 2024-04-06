@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_owner_payment,Owner Payment Admin,model_owner_payment,base.group_user,1,1,1,1
+access_owner_contract,Owner Contract Admin,model_owner_contract,base.group_user,1,1,1,1
+access_rental_unit,Rental Unit Admin,model_rental_unit,base.group_user,1,1,1,1
+access_rental_unit_building,Rental Unit Admin,model_rental_unit_building,base.group_user,1,1,1,1
+access_building,Building Manager,model_building_building,base.group_user,1,1,1,1
+access_owner_contract_building,Owner Contract Building Manager,model_owner_contract_building,base.group_user,1,1,1,1
+access_owner_contract_expenses,Owner Contract Building Manager,model_owner_contract_expense,base.group_user,1,1,1,1
+access_tenant_contract,Rental Contract Building Manager,model_tenant_contract,base.group_user,1,1,1,1
+access_tenant_contract_rental_unit,Rental Contract Building Manager,model_tenant_contract_rental_unit,base.group_user,1,1,1,1
+access_tenant_contract_rental_unit_wizard,Rental Contract Building Manager,model_tenant_contract_rental_unit_wizard,base.group_user,1,1,1,1
+access_tenant_contract_expenses,Owner Contract Building Manager,model_tenant_contract_expense,base.group_user,1,1,1,1
+access_tenant_contract_line,Tenant Contract Line Manager,model_tenant_contract_line,base.group_user,1,1,1,1
