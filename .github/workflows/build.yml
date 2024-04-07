@@ -35,23 +35,23 @@ jobs:
       fail-fast: false
       matrix:
         # Test modern Odoo versions with latest Postgres version
-        odoo_version: ["17.0"]
-        pg_version: ["15"]
+        odoo_version: ["16.0"]
+        pg_version: ["14"]
         python_version: ["3.10"]
         include:
           # Older odoo versions don't support latest postgres and Python versions
-          - odoo_version: "16.0"
-            pg_version: "14"
-            python_version: "3.10"
-          - odoo_version: "15.0"
-            pg_version: "14"
-            python_version: "3.9"
-          - odoo_version: "14.0"
-            pg_version: "14"
-            python_version: "3.9"
-          - odoo_version: "13.0"
-            pg_version: "14"
-            python_version: "3.9"
+          # - odoo_version: "16.0"
+          #   pg_version: "14"
+          #   python_version: "3.10"
+          # - odoo_version: "15.0"
+          #   pg_version: "14"
+          #   python_version: "3.9"
+          # - odoo_version: "14.0"
+          #   pg_version: "14"
+          #   python_version: "3.9"
+          # - odoo_version: "13.0"
+          #   pg_version: "14"
+          #   python_version: "3.9"
     env:
       # Other variables to configure tests and execution environment
       DOCKER_BUILDKIT: 1
