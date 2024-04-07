@@ -1,0 +1,96 @@
+<odoo>
+    <data>
+        <record id="building_rental_unit_tree_view" model="ir.ui.view">
+            <field name="name">rental.unit.tree.view</field>
+            <field name="mode">primary</field>
+            <field name="model">rental.unit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="id" invisible="1"/>
+                    <field name="name" />
+                    <field name="rental_unit_code" />
+                    <field name="rented_out" />
+                    <field name="monthly_rent" />
+                </tree>
+
+            </field>
+        </record>
+
+        <!-- <record id="action_rental_unit_new" model="ir.actions.act_window">
+            <field name="name">rental.unit.form.view</field>
+            <field name="res_model">rental.unit</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record> -->
+
+        <record id="building_rental_unit_tree_view2" model="ir.ui.view">
+            <field name="name">rental.unit.tree.view</field>
+            <field name="model">rental.unit</field>
+            <field name="arch" type="xml">
+                <tree action="act_show_rental_unit" type="object">
+                    <header>
+                        <button
+                            name="action_create_rental_unit"
+                            type="object"
+                            string="New Rental Unit"
+                            class="btn btn-primary"
+                        />
+                    </header>
+                    <field name="id" invisible="1"/>
+                    <field name="name" />
+                    <field name="rental_unit_code" />
+                    <field name="rented_out" />
+                    <field name="monthly_rent" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="building_rental_unit_form_view" model="ir.ui.view">
+            <field name="name">rental.unit.form.view</field>
+            <field name="model">rental.unit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <!-- <button
+                            name="approved_building"
+                            type="object"
+                            string="All Checked"
+                            class="btn btn-primary"
+                            states="new"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="new,ok,archived"
+                            options="{'clickable': '1'}"
+                        /> -->
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="rental_unit_code" />
+
+                                <field name="building_id" />
+                            </group>
+                            <group>
+                                <field name="monthly_rent" />
+                                <!-- <field name="occupancy_state" /> -->
+                                <field name="rented_out" />
+                                <field name="usage_type" />
+                            </group>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_property_building_rental_unit" model="ir.actions.act_window">
+            <field name="name">Rental Units</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rental.unit</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

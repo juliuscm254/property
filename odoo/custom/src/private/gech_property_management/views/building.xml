@@ -1,0 +1,208 @@
+<odoo>
+    <data>
+        <!-- <record id="property_property_kanban_view" model="ir.ui.view">
+            <field name="name">property.property.kanban.view</field>
+            <field name="model">property.property</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" sample="1">
+                    <field name="name" />
+                    <field name="created_date" />
+                    <field name="acquired_date" />
+                    <field name="size" />
+                    <field name="state" />
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row mb4">
+                                    <div class="col-6 o_kanban_record_headings">
+                                        <strong>
+                                            <span>
+                                                <field name="name" />
+                                            </span>
+                                        </strong>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <strong><i
+                                                class="fa fa-clock-o"
+                                                aria-label="Date"
+                                                role="img"
+                                                title="Date"
+                                            /> <t
+                                                t-esc="record.created_date.value"
+                                            /></strong>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span><field name="state_id" /></span>
+                                        <span><field name="country_id" /></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="float-right">
+                                            <field
+                                                name="state"
+                                                widget="label_selection"
+                                                options="{'classes': {'new': 'warning', 'ok': 'success', 'archived': 'danger'}}"
+                                            />
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+
+
+        <record id="property_building_tree_view" model="ir.ui.view">
+            <field name="name">building.building.tree.view</field>
+            <field name="model">building.building</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="building_code" />
+                    <field name="primary_type_of_building" />
+                    <field name="site_id" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="property_property_form_view" model="ir.ui.view">
+            <field name="name">building.building.form.view</field>
+            <field name="model">building.building</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button
+                            name="approved_building"
+                            type="object"
+                            string="All Checked"
+                            class="btn btn-primary"
+                            states="new"
+                        />
+                        <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="new,ok,archived"
+                            options="{'clickable': '1'}"
+                        />
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <!-- <button
+                                name="act_show_contract"
+                                type="object"
+                                class="oe_stat_button"
+                                groups="account.group_account_invoice"
+                                icon="fa-book"
+                                context="{'default_contract_type': 'sale', 'contract_type': 'sale'}"
+                                attrs="{'invisible': [('customer_rank','=',0)]}"
+                                help="Show the units for this building"
+                            > -->
+                            <button
+                            name="act_show_rental_unit"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-building"
+                            groups="base.group_user"
+                            help="Show the units for this building"
+                            >
+                                <field
+                                    name="rental_unit_count"
+                                    widget="statinfo"
+                                    string="Units"
+                                />
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field
+                                    name="name"
+                                    default_focus="1"
+                                    placeholder="Description"
+                                    required="1"
+                                />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="street" string="Address" />
+                                <div class="o_address_format">
+                                    <field
+                                        name="street"
+                                        placeholder="Street..."
+                                        class="o_address_street"
+                                    />
+                                    <field
+                                        name="street2"
+                                        placeholder="Street 2..."
+                                        class="o_address_street"
+                                    />
+                                    <field
+                                        name="city"
+                                        placeholder="City"
+                                        class="o_address_city"
+                                    />
+                                    <field
+                                        name="state_id"
+                                        class="o_address_state"
+                                        placeholder="State"
+                                        options="{'no_open': True, 'no_quick_create': True}"
+                                        context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"
+                                    />
+                                    <field
+                                        name="zip"
+                                        placeholder="ZIP"
+                                        class="o_address_zip"
+                                    />
+                                    <field
+                                        name="country_id"
+                                        placeholder="Country"
+                                        class="o_address_country"
+                                        options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"
+                                    />
+                                </div>
+                            </group>
+                            <group>
+                                <field name="construction_year" />
+                                <field name="building_code" />
+                                <field name="primary_type_of_building" />
+                            </group>
+                        </group>
+                        <sheet colspan="4">
+                            <group><group>
+                                <field name="valid_from" />
+                                <field name="valid_until" />
+                                <field name="type_of_ownership" />
+                            </group>
+                            <group>
+                                <field name="year_of_last_refurbishment" />
+                                <field name="parking_spaces" />
+                                <field name="tenant_structure" />
+                            </group></group>
+
+                        </sheet>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_property_building" model="ir.actions.act_window">
+            <field name="name">Properties</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">building.building</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <!-- <menuitem
+            id="building_menu"
+            name="Properties"
+            action="gech_property_management.action_property_building"
+            parent="gech_property_management.property_management_parent_menu"
+            sequence="5"
+        /> -->
+
+    </data>
+</odoo>

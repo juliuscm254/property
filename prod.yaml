@@ -1,0 +1,132 @@
+version: "2.4"
+
+services:
+  odoo:
+    extends:
+      file: common.yaml
+      service: odoo
+    restart: unless-stopped
+    hostname: ""
+    env_file:
+      - .docker/odoo.env
+      - .docker/db-access.env
+    environment:
+      DB_FILTER: "^prod"
+      DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-prod}"
+      INITIAL_LANG: "en_US"
+      SMTP_SERVER: smtplocal
+    depends_on:
+      - db
+      - smtp
+    networks:
+      default:
+      inverseproxy_shared:
+    labels:
+      doodba.domain.main: ""
+      traefik.enable: "true"
+      traefik.domain: ""
+      traefik.forbiddenCrawlers-0.frontend.headers.customResponseHeaders:
+        "X-Robots-Tag:noindex, nofollow"
+      traefik.forbiddenCrawlers-0.frontend.rule: Host:;Path:/web,/web/{anything:.*},/website/info,/website/info/{anything:.*}
+      traefik.main-0.frontend.rule: Host:www.habahaba.store
+      traefik.longpolling-0.frontend.rule: Host:;Path:/websocket,/websocket/{anything:.*}
+      traefik.longpolling-0.port: 8072
+      traefik.http.middlewares.property-16-0-prod-buffering.buffering.retryExpression:
+        IsNetworkError() && Attempts() < 5
+      traefik.http.middlewares.property-16-0-prod-compress.compress: "true"
+      traefik.http.middlewares.property-16-0-prod-forbid-crawlers.headers.customResponseHeaders.X-Robots-Tag:
+        "noindex, nofollow"
+      traefik.http.middlewares.property-16-0-prod-addSTS.headers.forceSTSHeader: "true"
+      traefik.http.middlewares.property-16-0-prod-forceSecure.redirectScheme.scheme: https
+      traefik.http.middlewares.property-16-0-prod-forceSecure.redirectScheme.permanent: "true"
+      traefik.http.services.property-16-0-prod-main.loadbalancer.server.port: 8069
+      traefik.http.services.property-16-0-prod-longpolling.loadbalancer.server.port: 8072
+      traefik.http.routers.property-16-0-prod-main-0.rule: Host()
+      traefik.http.routers.property-16-0-prod-main-0.service: property-16-0-prod-main
+      traefik.http.routers.property-16-0-prod-main-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-buffering,
+        property-16-0-prod-compress, property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-main-secure-0.rule: Host()
+      traefik.http.routers.property-16-0-prod-main-secure-0.service: property-16-0-prod-main
+      traefik.http.routers.property-16-0-prod-main-secure-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-buffering,
+        property-16-0-prod-compress, property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-main-secure-0.tls: "true"
+      traefik.http.routers.property-16-0-prod-main-secure-0.tls.certResolver: letsencrypt
+      traefik.http.routers.property-16-0-prod-longpolling-0.rule:
+        Host() && Path(`/websocket`)
+      traefik.http.routers.property-16-0-prod-longpolling-0.service: property-16-0-prod-longpolling
+      traefik.http.routers.property-16-0-prod-longpolling-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-longpolling-secure-0.rule:
+        Host() && Path(`/websocket`)
+      traefik.http.routers.property-16-0-prod-longpolling-secure-0.service: property-16-0-prod-longpolling
+      traefik.http.routers.property-16-0-prod-longpolling-secure-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-longpolling-secure-0.tls: "true"
+      traefik.http.routers.property-16-0-prod-longpolling-secure-0.tls.certResolver: letsencrypt
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.rule:
+        Host() && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
+        `/website/info`))
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.service: property-16-0-prod-main
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-buffering,
+        property-16-0-prod-compress, property-16-0-prod-forbid-crawlers,
+        property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.rule:
+        Host() && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
+        `/website/info`))
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.service: property-16-0-prod-main
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.middlewares:
+        property-16-0-prod-addSTS, property-16-0-prod-buffering,
+        property-16-0-prod-compress, property-16-0-prod-forbid-crawlers,
+        property-16-0-prod-forceSecure
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.tls: "true"
+      traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.tls.certResolver: letsencrypt
+
+  db:
+    extends:
+      file: common.yaml
+      service: db
+    env_file:
+      - .docker/db-creation.env
+    restart: unless-stopped
+    networks:
+      default:
+      inverseproxy_shared:
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: "inverseproxy_shared"
+      traefik.tcp.services.property-16-0-prod-database.loadbalancer.server.port: 5432
+      traefik.property-16-0-prod-database-0.port: 5432
+      traefik.tcp.routers.property-16-0-prod-database-0.rule: Host()
+      traefik.tcp.routers.property-16-0-prod-database-0.service: property-16-0-prod-database
+
+  smtp:
+    extends:
+      file: common.yaml
+      service: smtpreal
+    env_file:
+      - .docker/smtp.env
+    networks:
+      default:
+        aliases:
+          - smtplocal
+    restart: unless-stopped
+
+networks:
+  default:
+    driver_opts:
+      encrypted: 1
+
+  inverseproxy_shared:
+    external: true
+
+volumes:
+  filestore:
+  db:
+  mailconfig:
+  maildata:
+  maillogs:
+  maillogssupervisord:
+  mailstate:

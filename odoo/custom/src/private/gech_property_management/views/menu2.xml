@@ -1,0 +1,5 @@
+<odoo>
+    <data>
+        <menuitem id="property_management_parent_menu" name="Property Management" />
+    </data>
+</odoo>

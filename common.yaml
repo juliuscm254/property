@@ -1,0 +1,70 @@
+version: "2.4"
+
+services:
+  odoo:
+    image: docker.io/gechcode/property:16.0
+    build:
+      context: ./odoo
+      args:
+        DB_VERSION: "15"
+        ODOO_VERSION: "16.0"
+        UID: "${UID:-1000}"
+        GID: "${GID:-1000}"
+    environment:
+      EMAIL_FROM: "odoo@habahaba.store"
+      PGDATABASE: &dbname prod
+      PGUSER: &dbuser "odoo"
+      PROXY_MODE: "true"
+      LIST_DB: "true"
+    tty: true
+    volumes:
+      - filestore:/var/lib/odoo:z
+    labels:
+      traefik.backend.buffering.retryExpression: IsNetworkError() && Attempts() < 5
+      traefik.docker.network: "inverseproxy_shared"
+      traefik.frontend.passHostHeader: "true"
+      traefik.port: "8069"
+
+  db:
+    image: ghcr.io/tecnativa/postgres-autoconf:15-alpine
+    shm_size: 4gb
+    environment:
+      POSTGRES_DB: *dbname
+      POSTGRES_USER: *dbuser
+      CONF_EXTRA: |
+        work_mem = 512MB
+    volumes:
+      - db:/var/lib/postgresql/data:z
+
+  smtpfake:
+    image: docker.io/mailhog/mailhog
+
+  smtpreal:
+    image: ghcr.io/docker-mailserver/docker-mailserver:13
+    hostname: "smtp.habahaba.store"
+    stop_grace_period: 1m
+    volumes:
+      - mailconfig:/tmp/docker-mailserver:z
+      - maildata:/var/mail:z
+      - maillogs:/var/log/mail:z
+      - maillogssupervisord:/var/log/supervisor:z
+      - mailstate:/var/mail-state:z
+    cap_add:
+      - SYS_PTRACE
+    environment:
+      DEFAULT_RELAY_HOST: "[pixel.mxrouting.net]:587"
+
+      LOG_LEVEL: info
+
+      ENABLE_SRS: 1
+      ONE_DIR: 1
+      PERMIT_DOCKER: connected-networks
+      POSTFIX_INET_PROTOCOLS: ipv4
+      POSTFIX_MESSAGE_SIZE_LIMIT: 52428800 # 50 MiB
+      RELAY_HOST: "pixel.mxrouting.net"
+      RELAY_PORT: "587"
+      RELAY_USER: "odoo@habahaba.store"
+      SMTP_ONLY: 1
+      SRS_DOMAINNAME: "habahaba.store"
+      SRS_EXCLUDE_DOMAINS: "habahaba.store"
+      SRS_SENDER_CLASSES: envelope_sender,header_sender
