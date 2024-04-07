@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+src=/opt/odoo/custom/src/odoo
+dst=/usr/local/bin/odoo
+log INFO Installing Odoo from $src
+
+# For development you could want to avoid installing Odoo to speed up build
+if [ "$PIP_INSTALL_ODOO" == true ]; then
+    args="--no-cache-dir"
+    pip install $args --editable $src
+else
+    log WARNING Blindly symlinking odoo executable
+    bin=$src/odoo-bin
+    # Cannot check for scripts existence and link all: they probably do not
+    # exist yet at build time! Just check Odoo version and act properly.
+    ln -s $bin $dst
+fi
