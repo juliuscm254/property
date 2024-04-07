@@ -10,6 +10,7 @@ exclude: |
   /static/(src/)?lib/|
   # You don't usually want a bot to modify your legal texts
   (LICENSE.*|COPYING.*)
+
 default_language_version:
   python: python3
   node: "18.17.1"
@@ -42,15 +43,15 @@ repos:
   #     - id: ruff
   #       args: [--fix, --exit-non-zero-on-fix]
   #     - id: ruff-format
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.2
-    hooks:
-      - id: prettier
-        name: prettier + plugin-xml
-        additional_dependencies:
-          # HACK https://github.com/prettier/pre-commit/issues/16#issuecomment-713474520
-          - prettier@3.0.2
-          - "@prettier/plugin-xml@v3.2.0"
+  # - repo: https://github.com/pre-commit/mirrors-prettier
+  #   rev: v3.0.2
+  #   hooks:
+  #     - id: prettier
+  #       name: prettier + plugin-xml
+  #       additional_dependencies:
+  #         # HACK https://github.com/prettier/pre-commit/issues/16#issuecomment-713474520
+  #         - prettier@3.0.2
+  #         - "@prettier/plugin-xml@v3.2.0"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -81,22 +82,22 @@ repos:
   #     - id: pylint_odoo
   #       args:
   #         - --rcfile=.pylintrc-mandatory
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.49.0
-    hooks:
-      - id: eslint
-        verbose: true
-        args:
-          - --color
-          - --fix
-  - <<: *maintainer_tools
-    hooks:
-      # Generate readme is last, so its digest includes changes from above
-      - id: oca-gen-addon-readme
-        args:
-          - --addons-dir=odoo/custom/src/private
-          - --org-name=gechcode
-          - --repo-name=property
-          - --gen-html
-          - --branch=16.0
-          - --template-filename=.module-readme.rst.j2
+  # - repo: https://github.com/pre-commit/mirrors-eslint
+  #   rev: v8.49.0
+  #   hooks:
+  #     - id: eslint
+  #       verbose: true
+  #       args:
+  #         - --color
+  #         - --fix
+  # - <<: *maintainer_tools
+  #   hooks:
+  #     # Generate readme is last, so its digest includes changes from above
+  #     - id: oca-gen-addon-readme
+  #       args:
+  #         - --addons-dir=odoo/custom/src/private
+  #         - --org-name=gechcode
+  #         - --repo-name=property
+  #         - --gen-html
+  #         - --branch=16.0
+  #         - --template-filename=.module-readme.rst.j2
