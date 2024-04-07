@@ -80,23 +80,23 @@ jobs:
       fail-fast: false
       matrix:
         # Test modern Odoo versions with latest Postgres version
-        odoo_version: ["17.0"]
+        odoo_version: ["16.0"]
         platforms: ["linux/amd64,linux/arm64"]
-        include:
-          # Older odoo versions don't support latest postgres and Python versions
-          - odoo_version: "16.0"
-            platforms: "linux/amd64,linux/arm64"
-          - odoo_version: "15.0"
-            platforms: "linux/amd64,linux/arm64"
-          - odoo_version: "14.0"
-            platforms: "linux/amd64,linux/arm64"
-          - odoo_version: "13.0"
-            platforms: "linux/amd64"
+        # include:
+        #   # Older odoo versions don't support latest postgres and Python versions
+        #   - odoo_version: "16.0"
+        #     platforms: "linux/amd64,linux/arm64"
+        #   - odoo_version: "15.0"
+        #     platforms: "linux/amd64,linux/arm64"
+        #   - odoo_version: "14.0"
+        #     platforms: "linux/amd64,linux/arm64"
+        #   - odoo_version: "13.0"
+        #     platforms: "linux/amd64"
     env:
       # Indicates what's the equivalent to tecnativa/doodba:latest image
-      LATEST_RELEASE: "17.0"
+      LATEST_RELEASE: "16.0"
       # Define the docker hub repository location and github container registry host
-      DOCKER_REPO: tecnativa/doodba
+      DOCKER_REPO: gechcode/property
       GHCR_HOST: ghcr.io
     steps:
       # Set build date as env variable to be used later
@@ -146,7 +146,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./${{ matrix.odoo_version }}.Dockerfile
+          file: ./odoo/Dockerfile
           platforms: ${{ matrix.platforms }}
           push:
             ${{ github.repository == 'tecnativa/doodba' && github.ref ==
