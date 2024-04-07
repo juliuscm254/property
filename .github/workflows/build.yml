@@ -78,6 +78,7 @@ jobs:
             BUILD_DATE=${{ env.BUILD_DATE }}
             ODOO_VERSION=${{ matrix.odoo_version }}
             - name: Deploy App to Caprover
+      - name: Deploy on CapRover
         uses: caprover/deploy-from-github@v1.1.2
         with:
           server: '${{ secrets.CAPROVER_SERVER }}'
