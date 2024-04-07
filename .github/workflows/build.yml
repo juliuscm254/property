@@ -108,7 +108,7 @@ jobs:
       - name: Build base image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./odoo
           file: ./${{ matrix.odoo_version }}.Dockerfile
           platforms: ${{ matrix.platforms }}
           push: ${{ github.event_name != 'pull_request' }}
@@ -125,7 +125,7 @@ jobs:
       - name: Build onbuild image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./odoo
           file: ./${{ matrix.odoo_version }}.Dockerfile
           platforms: ${{ matrix.platforms }}
           push: ${{ github.event_name != 'pull_request' }}
