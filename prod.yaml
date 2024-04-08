@@ -6,7 +6,7 @@ services:
       file: common.yaml
       service: odoo
     restart: unless-stopped
-    hostname: ""
+    # hostname: "www.habahaba.store"
     env_file:
       - .docker/odoo.env
       - .docker/db-access.env
@@ -22,14 +22,14 @@ services:
       default:
       inverseproxy_shared:
     labels:
-      doodba.domain.main: ""
+      doodba.domain.main: "habahaba.store"
       traefik.enable: "true"
-      traefik.domain: ""
+      traefik.domain: "habahaba.store"
       traefik.forbiddenCrawlers-0.frontend.headers.customResponseHeaders:
         "X-Robots-Tag:noindex, nofollow"
-      traefik.forbiddenCrawlers-0.frontend.rule: Host:;Path:/web,/web/{anything:.*},/website/info,/website/info/{anything:.*}
+      traefik.forbiddenCrawlers-0.frontend.rule: Host:www.habahaba.store;Path:/web,/web/{anything:.*},/website/info,/website/info/{anything:.*}
       traefik.main-0.frontend.rule: Host:www.habahaba.store
-      traefik.longpolling-0.frontend.rule: Host:;Path:/websocket,/websocket/{anything:.*}
+      traefik.longpolling-0.frontend.rule: Host:www.habahaba.store;Path:/websocket,/websocket/{anything:.*}
       traefik.longpolling-0.port: 8072
       traefik.http.middlewares.property-16-0-prod-buffering.buffering.retryExpression:
         IsNetworkError() && Attempts() < 5
@@ -41,12 +41,12 @@ services:
       traefik.http.middlewares.property-16-0-prod-forceSecure.redirectScheme.permanent: "true"
       traefik.http.services.property-16-0-prod-main.loadbalancer.server.port: 8069
       traefik.http.services.property-16-0-prod-longpolling.loadbalancer.server.port: 8072
-      traefik.http.routers.property-16-0-prod-main-0.rule: Host()
+      traefik.http.routers.property-16-0-prod-main-0.rule: Host(`habahaba.store`)
       traefik.http.routers.property-16-0-prod-main-0.service: property-16-0-prod-main
       traefik.http.routers.property-16-0-prod-main-0.middlewares:
         property-16-0-prod-addSTS, property-16-0-prod-buffering,
         property-16-0-prod-compress, property-16-0-prod-forceSecure
-      traefik.http.routers.property-16-0-prod-main-secure-0.rule: Host()
+      traefik.http.routers.property-16-0-prod-main-secure-0.rule: Host(`habahaba.store`)
       traefik.http.routers.property-16-0-prod-main-secure-0.service: property-16-0-prod-main
       traefik.http.routers.property-16-0-prod-main-secure-0.middlewares:
         property-16-0-prod-addSTS, property-16-0-prod-buffering,
@@ -54,19 +54,19 @@ services:
       traefik.http.routers.property-16-0-prod-main-secure-0.tls: "true"
       traefik.http.routers.property-16-0-prod-main-secure-0.tls.certResolver: letsencrypt
       traefik.http.routers.property-16-0-prod-longpolling-0.rule:
-        Host() && Path(`/websocket`)
+        Host(`habahaba.store`) && Path(`/websocket`)
       traefik.http.routers.property-16-0-prod-longpolling-0.service: property-16-0-prod-longpolling
       traefik.http.routers.property-16-0-prod-longpolling-0.middlewares:
         property-16-0-prod-addSTS, property-16-0-prod-forceSecure
       traefik.http.routers.property-16-0-prod-longpolling-secure-0.rule:
-        Host() && Path(`/websocket`)
+        Host(`habahaba.store`) && Path(`/websocket`)
       traefik.http.routers.property-16-0-prod-longpolling-secure-0.service: property-16-0-prod-longpolling
       traefik.http.routers.property-16-0-prod-longpolling-secure-0.middlewares:
         property-16-0-prod-addSTS, property-16-0-prod-forceSecure
       traefik.http.routers.property-16-0-prod-longpolling-secure-0.tls: "true"
       traefik.http.routers.property-16-0-prod-longpolling-secure-0.tls.certResolver: letsencrypt
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.rule:
-        Host() && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
+        Host(`habahaba.store`) && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
         `/website/info`))
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.service: property-16-0-prod-main
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-0.middlewares:
@@ -74,7 +74,7 @@ services:
         property-16-0-prod-compress, property-16-0-prod-forbid-crawlers,
         property-16-0-prod-forceSecure
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.rule:
-        Host() && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
+        Host(`habahaba.store`) && (PathPrefix(`/web/`, `/website/info/`) || Path(`/web`,
         `/website/info`))
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.service: property-16-0-prod-main
       traefik.http.routers.property-16-0-prod-forbiddenCrawlers-secure-0.middlewares:
@@ -99,7 +99,7 @@ services:
       traefik.docker.network: "inverseproxy_shared"
       traefik.tcp.services.property-16-0-prod-database.loadbalancer.server.port: 5432
       traefik.property-16-0-prod-database-0.port: 5432
-      traefik.tcp.routers.property-16-0-prod-database-0.rule: Host()
+      traefik.tcp.routers.property-16-0-prod-database-0.rule: Host(`habahaba.store`)
       traefik.tcp.routers.property-16-0-prod-database-0.service: property-16-0-prod-database
 
   smtp:
